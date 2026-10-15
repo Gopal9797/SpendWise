@@ -121,8 +121,8 @@ def render_dashboard(
             title=f"Category Share - {selected_month}",
             hole=0.35,
         )
-        st.plotly_chart(figure, use_container_width=True)
-        st.dataframe(spending_by_category, use_container_width=True, hide_index=True)
+        st.plotly_chart(figure, width="stretch")
+        st.dataframe(spending_by_category, width="stretch", hide_index=True)
 
     st.subheader("Spending Trend")
     trend_df = calculate_spending_trend(transaction_df, months=12)
@@ -143,7 +143,7 @@ def render_dashboard(
             markers=True,
             title="Income vs Expenses (Last 12 Months)",
         )
-        st.plotly_chart(trend_fig, use_container_width=True)
+        st.plotly_chart(trend_fig, width="stretch")
 
     st.subheader("Budget Progress")
     budget_status_df = build_budget_status(repo, selected_month, transaction_df)
@@ -299,7 +299,7 @@ def render_transactions_tab(repo: SpendWiseRepository, transaction_df: pd.DataFr
             display_df["payment_method"] = display_df["payment_method"].astype(str).map(_payment_method_label)
             display_df["amount"] = display_df["amount"].map(format_currency)
 
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, width="stretch", hide_index=True)
 
     raw_transactions = repo.list_transactions()
     if not raw_transactions:

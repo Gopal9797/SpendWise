@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("install", "run", "test", "reset-db", "reset-transactions", "help")]
+    [ValidateSet("install", "run", "test", "e2e-install", "e2e", "reset-db", "reset-transactions", "help")]
     [string]$Task = "help",
 
     [Parameter()]
@@ -38,12 +38,14 @@ function Resolve-Python {
 
 function Show-Help {
     Write-Host "SpendWise command helper"
-    Write-Host "Usage: .\dev.ps1 <install|run|test|reset-db|reset-transactions|help> [-PythonPath <path>]"
+    Write-Host "Usage: .\dev.ps1 <install|run|test|e2e-install|e2e|reset-db|reset-transactions|help> [-PythonPath <path>]"
     Write-Host ""
     Write-Host "Examples:"
     Write-Host "  .\dev.ps1 install"
     Write-Host "  .\dev.ps1 run"
     Write-Host "  .\dev.ps1 test"
+    Write-Host "  .\dev.ps1 e2e-install"
+    Write-Host "  .\dev.ps1 e2e"
     Write-Host "  .\dev.ps1 reset-db"
     Write-Host "  .\dev.ps1 reset-transactions"
 }
@@ -68,6 +70,20 @@ switch ($Task) {
 
     "test" {
         & $pythonExe -m pytest -q
+        exit $LASTEXITCODE
+    }
+
+    "e2e-install" {
+        npm install
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
+        npx playwright install
+        exit $LASTEXITCODE
+    }
+
+    "e2e" {
+        npm run test:e2e
         exit $LASTEXITCODE
     }
 

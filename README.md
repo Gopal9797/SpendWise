@@ -21,6 +21,9 @@ It supports:
 SpendWise/
   app.py
   dev.ps1
+  package.json
+  playwright.config.ts
+  tsconfig.json
   requirements.txt
   requirements-dev.txt
   README.md
@@ -60,6 +63,10 @@ SpendWise/
     test_metrics.py
     test_budget_logic.py
     test_csv_service.py
+    test_transactions_service.py
+  e2e/
+    global-setup.ts
+    spendwise.spec.ts
 ```
 
 ## Database Schema
@@ -155,6 +162,35 @@ Or:
 ```powershell
 .\dev.ps1 test
 ```
+
+## Run E2E Tests (Playwright + TypeScript)
+
+Install Node dependencies and Playwright browsers:
+
+```powershell
+npm install
+npx playwright install
+```
+
+Or with helper command:
+
+```powershell
+.\dev.ps1 e2e-install
+```
+
+Run E2E tests:
+
+```powershell
+npm run test:e2e
+```
+
+Or with helper command:
+
+```powershell
+.\dev.ps1 e2e
+```
+
+These tests start Streamlit automatically on a dedicated test database path and run scenarios for dashboard rendering, transactions CRUD, ID behavior after delete, budgets, and CSV flows.
 
 ## Demo Data
 
